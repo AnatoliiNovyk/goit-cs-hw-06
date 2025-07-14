@@ -29,9 +29,10 @@ class SimpleHttpHandler(BaseHTTPRequestHandler):
         elif url.path == '/message.html':
             self.send_html_file('front-init/message.html')
         else:
-            static_file = Path(url.path[1:])
-            if static_file.exists():
-                self.send_static_file(static_file)
+            # Створюємо шлях до статичного файлу, додаючи 'front-init' попереду
+            file_path = Path('front-init').joinpath(url.path[1:])
+            if file_path.exists():
+                self.send_static_file(file_path)
             else:
                 self.send_html_file('front-init/error.html', 404)
 
